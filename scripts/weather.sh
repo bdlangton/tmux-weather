@@ -5,6 +5,7 @@ source "$CURRENT_DIR/helpers.sh"
 
 get_weather() {
   local location=$(get_tmux_option "@tmux-weather-location")
+  local encoded_location = "${location// /%20}"
   local format=$(get_tmux_option "@tmux-weather-format" 1)
   local units=$(get_tmux_option "@tmux-weather-units" "m")
 
@@ -12,7 +13,7 @@ get_weather() {
     units="m"
   fi
 
-  curl -s "https://wttr.in/$location?$units&format=$format" | sed "s/[[:space:]]km/km/g"
+  curl -s "https://wttr.in/$encoded_location?$units&format=$format" | sed "s/[[:space:]]km/km/g"
 }
 
 main() {
